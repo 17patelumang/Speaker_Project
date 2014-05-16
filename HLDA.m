@@ -126,7 +126,7 @@ end
 %%%%% BASIC ALGO impementation
 A=eye(d);
 Abar=A;
-iter=20;
+iter=5;
 counter=1;
 
 p=d ; %% d>p>r 

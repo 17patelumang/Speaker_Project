@@ -118,7 +118,7 @@ for i=1:length(totalfeat)
        SC_C{counter,2}=i;
        
        option=statset('MaxIter',500,'Display','iter','TolFun',0.01) ;
-       g=gmdistribution.fit(temp{j,2},num_gauss,'CovType','diagonal','OPTIONS',option);
+       g=gmdistribution.fit(temp{j,2},num_gauss,'Start',struct('mu',g_ubm.mu,'Sigma',g_ubm.Sigma,'PComponents',g_ubm.PComponents),'CovType','diagonal','Regularize',0.1,'OPTIONS',option);
        
        %%%%%% CALCULATING s_i in "s_i = m + Tw_i "%%%%%%%%%%%%%%
         m_temp=[];

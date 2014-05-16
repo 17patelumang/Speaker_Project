@@ -4,7 +4,7 @@
 %Input - Cell structure contianing audio features
 %Output - GMM baeline scores
 
-load('features.mat');
+%load('features.mat');
 
 
 num_gauss=16; % <------- One can change the number og Gaussians Here
@@ -32,9 +32,10 @@ for i=1:length(totalfeat)
        
        
                 option=statset('MaxIter',500,'Display','iter') ;
-                gi=gmdistribution.fit(temp{j,2},num_gauss,'CovType','diagonal','OPTIONS',option);
+                gi=gmdistribution.fit(temp{j,2},num_gauss,'Start',struct('mu',g_ubm.mu,'Sigma',g_ubm.Sigma,'PComponents',g_ubm.PComponents),'CovType','diagonal','Regularize',0.1,'OPTIONS',option);
                 
-                grraym{mod(j,trainingindex)}=gi;
+                garraym{mod(j,trainingindex)}=gi;
+                
                 
             end         
           end  
@@ -45,10 +46,10 @@ for i=1:length(totalfeat)
             for j=(trainingindex+1):endindex
        
        
-                option=statset('MaxIter',500,'Display','iter') ;
-                gi=gmdistribution.fit(temp{j,2},num_gauss,'CovType','diagonal','OPTIONS',option);
+                option=statset('MaxIter',500,'Display','iter');
+                gi=gmdistribution.fit(temp{j,2},num_gauss,'Start',struct('mu',g_ubm.mu,'Sigma',g_ubm.Sigma,'PComponents',g_ubm.PComponents),'CovType','diagonal','Regularize',0.1,'OPTIONS',option);
                 
-                grrayf{mod(j,trainingindex)}=gi;
+                garrayf{mod(j,trainingindex)}=gi;
                 
             end         
           end  
@@ -60,7 +61,7 @@ for i=1:length(totalfeat)
                 
                     postarray=[];
                 for gg=1:length(garraym)
-                    [post,NLOGL]=posterior(grraym{mod(j,trainingindex)},temp{j,2});
+                    [post,NLOGL]=posterior(garraym{gg},temp{j,2});
                     postarray=[postarray, NLOGL];
                      
                     
@@ -68,7 +69,8 @@ for i=1:length(totalfeat)
                 end
                 
                 [max1,maxindex]=min(postarray);
-                
+                    %j
+                    %maxindex
                 if (maxindex==mod(j,trainingindex))
                     mcounter=mcounter+1;
                 end
@@ -86,7 +88,7 @@ for i=1:length(totalfeat)
                 
                     postarray=[];
                 for gg=1:length(garrayf)
-                    [post,NLOGL]=posterior(grrayf{mod(j,trainingindex)},temp{j,2});
+                    [post,NLOGL]=posterior(garrayf{gg},temp{j,2});
                     postarray=[postarray, NLOGL];
                      
                     

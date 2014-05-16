@@ -10,7 +10,7 @@ load('features.mat');
 
 num_gauss=16;
 
-d=40; % dimension of i-vector
+d=30; % dimension of i-vector
 
 
 trainingindex=80; %%%% to take forst from each folder for training (means 80% training data)
@@ -64,7 +64,7 @@ for i=1:length(totalfeat)
        
        
                 option=statset('MaxIter',500,'Display','iter','TolFun',0.01) ;
-                gi=gmdistribution.fit(temp{j,2},num_gauss,'CovType','diagonal','OPTIONS',option);
+                gi=gmdistribution.fit(temp{j,2},num_gauss,'Start',struct('mu',g_ubm.mu,'Sigma',g_ubm.Sigma,'PComponents',g_ubm.PComponents),'CovType','diagonal','Regularize',0.1,'OPTIONS',option);
        
                 %%%%%% CALCULATING s_i in "s_i = m + Tw_i "%%%%%%%%%%%%%%
                 m_temp=[];

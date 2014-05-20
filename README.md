@@ -80,5 +80,5 @@ features.m
 final_run.m
 	1) It calls the above mentioned files internally.
 	2) Change the num_gauss(line 11 to change number of GMM models) ,d(line 13 to change the dimension of i-vectors),trainingindex(line 16 to specify the proportion of training features from each folder)
-	3) Change the above mentioned parameers to get different results.
+	3) Change the above mentioned parameters to get different results.
 	
